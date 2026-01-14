@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------
-# MASTER SPAM FIREWALL (Oxford Scientia)
+# MASTER SPAM FIREWALL 
 # ----------------------------------------------------------------------
 <IfModule mod_rewrite.c>
 RewriteEngine On
