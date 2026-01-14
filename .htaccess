@@ -1,0 +1,21 @@
+# ----------------------------------------------------------------------
+# MASTER SPAM FIREWALL (Oxford Scientia)
+# ----------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# 1. BLOCK SPAM FOLDERS & PATH KEYWORDS
+RewriteRule ^products/([0-9]+) - [R=410,L]
+RewriteRule ^pages/(.*) - [R=410,L]
+RewriteRule ^jp/(.*) - [R=410,L]
+RewriteRule ^(.*)\.html$ - [R=410,L]
+RewriteRule (casino|gambling|slot|viagra|cialis|poker|baccarat|roulette|jackpot|porn|sex|dating) - [NC,R=410,L]
+
+# 2. BLOCK SPAM QUERY PARAMETERS (General & Keyword-based)
+RewriteCond %{QUERY_STRING} ^(a|d|b|slot|token|ref|sc_e|clubtop)= [NC,OR]
+RewriteCond %{QUERY_STRING} (casino|gambling|slot|viagra|cialis|poker|baccarat|roulette|jackpot|porn|sex|dating) [NC,OR]
+RewriteCond %{QUERY_STRING} ^p=[0-9]{5,} [NC]
+RewriteRule ^(.*)$ - [R=410,L]
+
+</IfModule>
+# ----------------------------------------------------------------------
