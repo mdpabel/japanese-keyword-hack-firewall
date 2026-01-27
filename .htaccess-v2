@@ -1,0 +1,44 @@
+# ----------------------------------------------------------------------
+# MASTER SPAM FIREWALL (Fixed & Optimized)
+# ----------------------------------------------------------------------
+# 1. FORCE SIMPLE TEXT RESPONSE
+# This line fixes the issue where the site still loads.
+# It forces a white screen with text instead of loading your theme.
+ErrorDocument 410 "<h1>410 Gone</h1><p>Resource permanently removed.</p>"
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# 2. GLOBAL WHITELIST (Fixed Logic)
+# If any of these match, allow the request immediately [L]
+
+# Allow Admin & Login
+RewriteCond %{REQUEST_URI} ^/wp-admin/ [NC,OR]
+RewriteCond %{REQUEST_URI} ^/wp-login.php [NC,OR]
+
+# Allow Password Resets
+RewriteCond %{QUERY_STRING} action=rp [NC,OR]
+RewriteCond %{REQUEST_URI} ^/reset-password/ [NC,OR]
+
+# Allow Search Results
+RewriteCond %{QUERY_STRING} s= [NC]
+RewriteRule .* - [L]
+
+# 3. BLOCK QUERY PARAMETERS (Enhanced: a-z)
+# Blocks ANY single letter (a, b, c... z) followed by 8+ digits
+# Matches if at start (^) OR after ampersand (&)
+RewriteCond %{QUERY_STRING} (^|&)[a-z]=[0-9]{8,} [NC]
+RewriteRule ^(.*)$ - [R=410,L]
+
+# 4. BLOCK PATHS (Nuclear Option)
+RewriteCond %{THE_REQUEST} (casino|gambling|viagra|cialis|poker|baccarat|roulette|jackpot|porn|dating) [NC]
+RewriteRule ^(.*)$ - [R=410,L]
+
+# 5. BLOCK SPAM FOLDERS
+RewriteRule ^products/([0-9]+) - [R=410,L]
+RewriteRule ^pages/(.*) - [R=410,L]
+RewriteRule ^jp/(.*) - [R=410,L]
+RewriteRule ^(.*)\.html$ - [R=410,L]
+
+</IfModule>
+# ----------------------------------------------------------------------
